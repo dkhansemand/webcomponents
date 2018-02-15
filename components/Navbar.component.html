@@ -1,0 +1,72 @@
+<template>
+    <content>
+        <nav>
+            <button> Toggle</button>
+            <span>
+                <a href="#">3</a>
+                <a href="#">2</a>
+                <a href="#">1</a>
+            </span>
+        </nav>
+    </content>
+</template>
+<script>
+class Navbar extends HTMLElement 
+{
+    static get observedAttributes() {
+      return ['open', 'hide'];
+    }
+    constructor() {
+        super();
+        this._show = true
+        this._rootElm = document.currentScript.ownerDocument
+        this.tmpl = this._rootElm.querySelector('template')
+        const shadowRoot = this.attachShadow({mode: 'open'})
+        shadowRoot.appendChild(this.tmpl.content)
+        //this._items = this.getAttribute('items')//Array(this.getAttribute('items').replace(/[\[\]']+/g,'').split(','))
+        //console.log('Elm: ', this._items)
+        this.addEventListener("click", e => {
+          console.log('click: ', e)
+          this.toggle()
+        });
+    }
+
+    get open(){
+        return this.hasAttribute('open')
+    }
+
+    get hide(){
+        return this.hasAttribute('hide')
+    }
+
+    set hide(v){
+        if(v){
+            this.setAttribute('hide', null)
+        }else{
+            this.removeAttribute('hide')
+        }
+    }
+    
+    toggle(){
+        if(this.open){
+            this._show = false
+            this.removeAttribute('open')
+            this.hide = true
+            this.shadowRoot.querySelector('nav span').style = "visibility:hidden"
+        }else{
+            this._show = true
+            this.setAttribute('open', null)
+            this.hide = false
+            this.shadowRoot.querySelector('nav span').style = "visibility:visible"
+        }
+    }
+     
+    attributeChangedCallback(attrName, oldVal, newVal)
+    {
+        console.log('attr values: ', attrName, oldVal, newVal)
+    }
+}
+    
+window.customElements.define('nav-bar', Navbar);
+    
+</script>
