@@ -11,7 +11,7 @@
     </content>
 </template>
 <script>
-class Navbar extends HTMLElement 
+class Navbar extends HTMLElement
 {
     static get observedAttributes() {
       return ['open', 'hide'];
@@ -26,9 +26,10 @@ class Navbar extends HTMLElement
         //this._items = this.getAttribute('items')//Array(this.getAttribute('items').replace(/[\[\]']+/g,'').split(','))
         //console.log('Elm: ', this._items)
         this.addEventListener("click", e => {
-          console.log('click: ', e)
+          //console.log('click: ', e)
           this.toggle()
         });
+        
     }
 
     get open(){
@@ -64,6 +65,12 @@ class Navbar extends HTMLElement
     attributeChangedCallback(attrName, oldVal, newVal)
     {
         console.log('attr values: ', attrName, oldVal, newVal)
+       this.__updateRender()
+    }
+
+    __updateRender()
+    {
+        
     }
 }
     
